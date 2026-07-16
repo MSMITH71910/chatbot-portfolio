@@ -1,0 +1,955 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Michael R. Smith — AI Chatbot Portfolio</title>
+<meta name="description" content="AI Chatbot Developer portfolio — conversational AI, LLM fine-tuning, multi-agent systems, and business chatbot integrations.">
+<style>
+  :root {
+    --bg: #0d1117;
+    --card-bg: #161b22;
+    --accent: #00d4ff;
+    --accent-dim: #00d4ff33;
+    --green: #238636;
+    --green-text: #3fb950;
+    --red: #da3633;
+    --amber: #d29922;
+    --purple: #8b5cf6;
+    --purple-dim: #8b5cf633;
+    --text: #c9d1d9;
+    --heading: #e6edf3;
+    --border: #30363d;
+    --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    --mono: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; scroll-padding-top: 72px; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    line-height: 1.6;
+    overflow-x: hidden;
+    background-image:
+      radial-gradient(circle at 20% 0%, #00d4ff08 0%, transparent 40%),
+      radial-gradient(circle at 90% 20%, #8b5cf608 0%, transparent 40%),
+      repeating-linear-gradient(0deg, #ffffff03 0px, #ffffff03 1px, transparent 1px, transparent 2px);
+  }
+
+  a { color: var(--accent); text-decoration: none; }
+
+  section { padding: 96px 24px; max-width: 1100px; margin: 0 auto; }
+
+  .eyebrow {
+    font-family: var(--mono);
+    color: var(--accent);
+    font-size: 0.85rem;
+    letter-spacing: 0.05em;
+    display: inline-block;
+    margin-bottom: 12px;
+  }
+  .eyebrow::before { content: "// "; color: var(--text); opacity: 0.5; }
+
+  h2 {
+    font-size: clamp(1.75rem, 3vw, 2.5rem);
+    color: var(--heading);
+    margin-bottom: 12px;
+    letter-spacing: -0.01em;
+  }
+
+  .section-sub {
+    color: var(--text);
+    opacity: 0.75;
+    max-width: 640px;
+    margin-bottom: 48px;
+    font-size: 1.05rem;
+  }
+
+  /* ===== Header ===== */
+  header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(13, 17, 23, 0.85);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .nav-wrap {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 16px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .logo {
+    font-family: var(--mono);
+    font-weight: 700;
+    color: var(--heading);
+    font-size: 1.05rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .logo::before {
+    content: "";
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--accent);
+    box-shadow: 0 0 8px 2px var(--accent-dim);
+  }
+
+  nav ul { list-style: none; display: flex; gap: 24px; flex-wrap: wrap; }
+
+  nav a {
+    color: var(--text);
+    font-size: 0.92rem;
+    font-family: var(--mono);
+    padding: 4px 2px;
+    border-bottom: 2px solid transparent;
+    transition: color 0.2s, border-color 0.2s;
+  }
+
+  nav a:hover, nav a.active { color: var(--accent); border-color: var(--accent); }
+
+  .hamburger {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    cursor: pointer;
+    padding: 4px;
+  }
+
+  .hamburger span {
+    display: block;
+    width: 24px;
+    height: 2px;
+    background: var(--heading);
+    border-radius: 2px;
+    transition: all 0.3s ease;
+  }
+
+  @media (max-width: 640px) {
+    .hamburger { display: flex; }
+
+    nav ul {
+      display: none;
+      position: fixed;
+      top: 57px;
+      left: 0;
+      width: 100%;
+      background: rgba(13, 17, 23, 0.98);
+      flex-direction: column;
+      align-items: center;
+      padding: 24px 0;
+      gap: 20px;
+      border-bottom: 1px solid var(--border);
+      z-index: 99;
+    }
+
+    nav ul.open { display: flex; }
+    .nav-wrap { justify-content: space-between; }
+  }
+
+  /* ===== Hero ===== */
+  .hero {
+    padding-top: 120px;
+    padding-bottom: 96px;
+  }
+
+  .hero .eyebrow { margin-bottom: 20px; }
+
+  .hero h1 {
+    font-size: clamp(2.4rem, 6vw, 4.2rem);
+    color: var(--heading);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    line-height: 1.05;
+    margin-bottom: 16px;
+  }
+
+  .hero h1 span { color: var(--accent); }
+
+  .hero .role-line {
+    font-family: var(--mono);
+    font-size: clamp(0.95rem, 2vw, 1.15rem);
+    color: var(--text);
+    margin-bottom: 8px;
+  }
+
+  .hero .role-line .sep { color: var(--border); margin: 0 8px; }
+
+  .hero .tagline {
+    font-size: 1.15rem;
+    color: var(--text);
+    opacity: 0.85;
+    margin-bottom: 36px;
+  }
+
+  .cta-row { display: flex; gap: 16px; flex-wrap: wrap; margin-bottom: 32px; }
+
+  .btn {
+    font-family: var(--mono);
+    font-size: 0.95rem;
+    padding: 13px 26px;
+    border-radius: 6px;
+    border: 1px solid var(--border);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .btn-primary {
+    background: var(--accent);
+    color: #041016;
+    border-color: var(--accent);
+    font-weight: 700;
+  }
+
+  .btn-primary:hover {
+    box-shadow: 0 0 0 3px var(--accent-dim), 0 0 18px var(--accent-dim);
+    transform: translateY(-2px);
+  }
+
+  .btn-secondary { background: transparent; color: var(--heading); }
+
+  .btn-secondary:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+    transform: translateY(-2px);
+  }
+
+  .badge-row { display: flex; gap: 14px; flex-wrap: wrap; }
+
+  .icon-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--mono);
+    font-size: 0.85rem;
+    padding: 8px 14px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    color: var(--text);
+    transition: border-color 0.2s, color 0.2s;
+  }
+
+  .icon-badge:hover { border-color: var(--accent); color: var(--accent); }
+  .icon-badge svg { width: 16px; height: 16px; fill: currentColor; }
+
+  /* ===== Cards ===== */
+  .card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 28px;
+    transition: border-color 0.25s, box-shadow 0.25s, transform 0.25s;
+  }
+
+  .card:hover {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 1px var(--accent-dim), 0 0 24px -8px var(--accent-dim);
+    transform: translateY(-3px);
+  }
+
+  /* ===== About grid ===== */
+  .about-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+
+  @media (max-width: 800px) { .about-grid { grid-template-columns: 1fr; } }
+
+  .about-card .icon { font-size: 2rem; margin-bottom: 16px; display: block; }
+  .about-card h3 { color: var(--heading); font-size: 1.15rem; margin-bottom: 10px; }
+  .about-card p { font-size: 0.95rem; opacity: 0.85; }
+
+  /* ===== Project grids ===== */
+  .project-grid-3 {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+
+  .project-grid-2 {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+  }
+
+  @media (max-width: 900px) {
+    .project-grid-3,
+    .project-grid-2 { grid-template-columns: 1fr; }
+  }
+
+  @media (max-width: 600px) {
+    .project-grid-3 { grid-template-columns: 1fr; }
+  }
+
+  .project-card { display: flex; flex-direction: column; }
+
+  .project-card .icon { font-size: 1.8rem; margin-bottom: 8px; }
+  .project-card h3 { color: var(--heading); font-size: 1.15rem; margin-bottom: 4px; }
+
+  .project-card .subtitle {
+    font-family: var(--mono);
+    font-size: 0.8rem;
+    color: var(--accent);
+    margin-bottom: 12px;
+  }
+
+  .project-card p { font-size: 0.9rem; opacity: 0.85; margin-bottom: 14px; }
+
+  .feature-list {
+    list-style: none;
+    margin-bottom: 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  .feature-list li {
+    font-size: 0.87rem;
+    opacity: 0.85;
+    padding-left: 16px;
+    position: relative;
+  }
+
+  .feature-list li::before {
+    content: "›";
+    position: absolute;
+    left: 0;
+    color: var(--accent);
+    font-family: var(--mono);
+  }
+
+  .highlight-badge {
+    display: inline-block;
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 5px 10px;
+    border-radius: 6px;
+    background: #00d4ff14;
+    color: var(--accent);
+    border: 1px solid #00d4ff40;
+    margin-bottom: 14px;
+    align-self: flex-start;
+  }
+
+  .highlight-badge.purple {
+    background: #8b5cf614;
+    color: var(--purple);
+    border-color: #8b5cf640;
+  }
+
+  .tech-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 7px;
+    margin-bottom: 16px;
+    margin-top: auto;
+  }
+
+  .pill {
+    font-family: var(--mono);
+    font-size: 0.73rem;
+    padding: 3px 9px;
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    color: var(--text);
+    opacity: 0.9;
+  }
+
+  .card-links { display: flex; gap: 10px; flex-wrap: wrap; align-self: flex-start; }
+
+  .card-gh-link {
+    font-family: var(--mono);
+    font-size: 0.83rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    border: 1px solid var(--border);
+    padding: 7px 13px;
+    border-radius: 6px;
+    color: var(--heading);
+    transition: border-color 0.2s, color 0.2s;
+  }
+
+  .card-gh-link:hover { border-color: var(--accent); color: var(--accent); }
+
+  .card-live-link {
+    font-family: var(--mono);
+    font-size: 0.83rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    border: 1px solid var(--green);
+    padding: 7px 13px;
+    border-radius: 6px;
+    color: var(--green-text);
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+
+  .card-live-link:hover { box-shadow: 0 0 12px #23863644; }
+
+  /* ===== Section divider ===== */
+  .section-divider {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 0 24px;
+    max-width: 1100px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  /* ===== Skills ===== */
+  .skills-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+  }
+
+  @media (max-width: 700px) { .skills-grid { grid-template-columns: 1fr; } }
+
+  .skills-col h3 {
+    color: var(--heading);
+    font-size: 1.05rem;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .skills-col h3::before { content: ">"; color: var(--accent); font-family: var(--mono); }
+
+  .skills-pills { display: flex; flex-wrap: wrap; gap: 9px; }
+
+  .skill-pill {
+    font-family: var(--mono);
+    font-size: 0.83rem;
+    padding: 7px 14px;
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    color: var(--text);
+    transition: border-color 0.2s, color 0.2s, transform 0.2s;
+  }
+
+  .skill-pill:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-2px); }
+
+  /* ===== Contact ===== */
+  .contact-section { text-align: center; }
+  .contact-section .section-sub { margin-left: auto; margin-right: auto; }
+  .contact-buttons { display: flex; flex-wrap: wrap; justify-content: center; gap: 16px; }
+
+  /* ===== Footer ===== */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 32px 24px;
+    text-align: center;
+    font-family: var(--mono);
+    font-size: 0.82rem;
+    opacity: 0.6;
+  }
+
+  /* ===== Live dot ===== */
+  .live-dot {
+    display: inline-block;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--green-text);
+    box-shadow: 0 0 6px var(--green-text);
+    animation: blink 2s infinite;
+  }
+
+  @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.35; } }
+
+  /* ===== Reveal ===== */
+  .reveal {
+    opacity: 0;
+    transform: translateY(16px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+
+  /* ===== Responsive ===== */
+  @media (max-width: 480px) {
+    section { padding: 64px 16px; }
+    .hero { padding-top: 100px; padding-bottom: 64px; }
+    .cta-row { flex-direction: column; }
+    .btn { width: 100%; max-width: 280px; justify-content: center; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="nav-wrap">
+    <div class="logo">M. Smith <span style="color:var(--text);opacity:0.5;font-weight:400;">/chatbots</span></div>
+    <button class="hamburger" id="hamburger" aria-label="Toggle menu">
+      <span></span><span></span><span></span>
+    </button>
+    <nav>
+      <ul id="nav-menu">
+        <li><a href="#about" class="nav-link">About</a></li>
+        <li><a href="#ai-bots" class="nav-link">AI Bots</a></li>
+        <li><a href="#business-bots" class="nav-link">Business Bots</a></li>
+        <li><a href="#skills" class="nav-link">Skills</a></li>
+        <li><a href="#contact" class="nav-link">Contact</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<section class="hero">
+  <span class="eyebrow">01 — hero</span>
+  <h1>Michael R. <span>Smith</span></h1>
+  <div class="role-line">AI Chatbot Developer <span class="sep">|</span> Python Engineer <span class="sep">|</span> LLM Integration</div>
+  <p class="tagline">Building bots that talk, think, and convert.</p>
+  <div class="cta-row">
+    <a href="#ai-bots" class="btn btn-primary">View Projects</a>
+    <a href="mailto:M.Smith71910@gmail.com" class="btn btn-secondary">Contact Me</a>
+  </div>
+  <div class="badge-row">
+    <a href="https://github.com/MSMITH71910" target="_blank" rel="noopener" class="icon-badge">
+      <svg viewBox="0 0 16 16"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>
+      GitHub
+    </a>
+    <a href="https://www.linkedin.com/in/michael-smith-2b38b260" target="_blank" rel="noopener" class="icon-badge">
+      <svg viewBox="0 0 16 16"><path d="M0 1.15C0 .52.53 0 1.19 0h13.62C15.47 0 16 .52 16 1.15v13.7c0 .63-.53 1.15-1.19 1.15H1.19C.53 16 0 15.48 0 14.85V1.15zM4.75 13.4V6.14H2.4v7.26h2.35zM3.58 5.15c.82 0 1.33-.54 1.33-1.22-.02-.7-.51-1.22-1.31-1.22-.8 0-1.33.53-1.33 1.22 0 .68.51 1.22 1.3 1.22h.01zm3.6 8.25v-4.06c0-.22.02-.43.08-.59.18-.43.58-.88 1.26-.88.89 0 1.24.68 1.24 1.67v3.86h2.35V9.32c0-2.17-1.16-3.18-2.71-3.18-1.25 0-1.8.7-2.11 1.18h.02V6.14H7.16c.03.66 0 7.26 0 7.26h2.02z"/></svg>
+      LinkedIn
+    </a>
+  </div>
+</section>
+
+<section id="about" class="reveal">
+  <span class="eyebrow">02 — about</span>
+  <h2>Three Levels of Chatbot Engineering</h2>
+  <div class="about-grid">
+    <div class="card about-card">
+      <span class="icon">🧠</span>
+      <h3>AI / LLM Bots</h3>
+      <p>Fine-tuned language models, multi-agent CrewAI pipelines, GPT-4 &amp; Whisper integrations — bots that reason and generate, not just pattern-match.</p>
+    </div>
+    <div class="card about-card">
+      <span class="icon">🔬</span>
+      <h3>Domain-Specific Bots</h3>
+      <p>Medical diagnosis, financial Q&amp;A, interview coaching — chatbots trained and scoped to a specific domain with validated logic and structured outputs.</p>
+    </div>
+    <div class="card about-card">
+      <span class="icon">💼</span>
+      <h3>Business Chatbots</h3>
+      <p>Real-time lead qualification, booking automation, and 24/7 customer support bots embedded into fully deployed business demo sites.</p>
+    </div>
+  </div>
+</section>
+
+<section id="ai-bots" class="reveal">
+  <span class="eyebrow">03 — ai &amp; ml bots</span>
+  <h2>AI / LLM Chatbot Projects</h2>
+  <p class="section-sub">Python-powered bots — fine-tuned models, multi-agent pipelines, and multimodal assistants.</p>
+  <div class="project-grid-3">
+
+    <div class="card project-card">
+      <span class="icon">🎯</span>
+      <h3>AI Interview Coach</h3>
+      <div class="subtitle">CrewAI Multi-Agent System</div>
+      <p>Multi-agent CrewAI system that conducts live mock interviews, grades each answer in real time, and delivers a comprehensive hiring recommendation report.</p>
+      <ul class="feature-list">
+        <li>AI interviewer agent + live grading agent</li>
+        <li>UX/UI, Frontend, Full Stack roles supported</li>
+        <li>Junior, Mid, Senior experience levels</li>
+        <li>4–5 curated questions per session</li>
+        <li>Final PDF-style evaluation report</li>
+      </ul>
+      <span class="highlight-badge purple">CrewAI · GPT-4 · Multi-Agent</span>
+      <div class="tech-pills">
+        <span class="pill">Python</span>
+        <span class="pill">CrewAI</span>
+        <span class="pill">OpenAI GPT-4</span>
+        <span class="pill">Multi-Agent</span>
+      </div>
+      <div class="card-links">
+        <a href="https://github.com/MSMITH71910/Interative_Interview_Coach" target="_blank" rel="noopener" class="card-gh-link">↳ View on GitHub</a>
+      </div>
+    </div>
+
+    <div class="card project-card">
+      <span class="icon">🧠</span>
+      <h3>Fine-Tuned LLM Chatbot</h3>
+      <div class="subtitle">GPT-2 Fine-Tuned · FastAPI · Gradio</div>
+      <p>Production-ready financial Q&amp;A chatbot built on a fine-tuned GPT-2 model trained on synthetic SEC filing data. Full MLOps pipeline with API, UI, and Docker deployment.</p>
+      <ul class="feature-list">
+        <li>Fine-tuned GPT-2 on 10-K / 10-Q financial data</li>
+        <li>FastAPI backend with OpenAPI docs</li>
+        <li>Gradio web interface for interactive chat</li>
+        <li>Docker containerized · AWS &amp; GCP deploy scripts</li>
+        <li>Model evaluation and monitoring included</li>
+      </ul>
+      <span class="highlight-badge purple">Fine-Tuned LLM · MLOps Pipeline</span>
+      <div class="tech-pills">
+        <span class="pill">Python</span>
+        <span class="pill">GPT-2</span>
+        <span class="pill">HuggingFace</span>
+        <span class="pill">FastAPI</span>
+        <span class="pill">Gradio</span>
+        <span class="pill">Docker</span>
+      </div>
+      <div class="card-links">
+        <a href="https://github.com/MSMITH71910/Fine-Tuned-LLM-Chatbot" target="_blank" rel="noopener" class="card-gh-link">↳ View on GitHub</a>
+      </div>
+    </div>
+
+    <div class="card project-card">
+      <span class="icon">🎙️</span>
+      <h3>Multimodal AI Assistant</h3>
+      <div class="subtitle">GPT-4 · Whisper · Claude · Voice + Vision</div>
+      <p>Full-stack AI assistant that combines voice transcription, image analysis, and text chat in one clean interface. Switch between GPT-4 and Claude mid-session.</p>
+      <ul class="feature-list">
+        <li>Voice recording → Whisper speech-to-text</li>
+        <li>Drag &amp; drop image analysis with custom prompts</li>
+        <li>GPT-4 and Claude switchable backends</li>
+        <li>Markdown-rendered chat with timestamps</li>
+        <li>Real-time typing indicators</li>
+      </ul>
+      <span class="highlight-badge purple">GPT-4 · Whisper · Vision · Claude</span>
+      <div class="tech-pills">
+        <span class="pill">JavaScript</span>
+        <span class="pill">OpenAI GPT-4</span>
+        <span class="pill">Whisper</span>
+        <span class="pill">Claude</span>
+        <span class="pill">Vision API</span>
+      </div>
+      <div class="card-links">
+        <a href="https://github.com/MSMITH71910/multimodal-ai-assistant-clean-" target="_blank" rel="noopener" class="card-gh-link">↳ View on GitHub</a>
+      </div>
+    </div>
+
+    <div class="card project-card">
+      <span class="icon">💹</span>
+      <h3>AI Financial Chatbot</h3>
+      <div class="subtitle">BCG GenAI Simulation · Python · pandas</div>
+      <p>Conversational financial data assistant that answers revenue, net income, asset, and cash flow queries for Apple, Microsoft, and Tesla across multiple fiscal years.</p>
+      <ul class="feature-list">
+        <li>Year-over-year growth calculations</li>
+        <li>Average growth rates across multiple years</li>
+        <li>Company + fiscal year session selection</li>
+        <li>Structured CSV-backed data responses</li>
+      </ul>
+      <span class="highlight-badge">Python · pandas · Financial Q&amp;A</span>
+      <div class="tech-pills">
+        <span class="pill">Python</span>
+        <span class="pill">pandas</span>
+        <span class="pill">CSV</span>
+        <span class="pill">CLI Chat</span>
+      </div>
+      <div class="card-links">
+        <a href="https://github.com/MSMITH71910/AI-Driven-Financial-Chatbot" target="_blank" rel="noopener" class="card-gh-link">↳ View on GitHub</a>
+      </div>
+    </div>
+
+    <div class="card project-card">
+      <span class="icon">🏥</span>
+      <h3>Medical Diagnosis Bot</h3>
+      <div class="subtitle">Flask + React · Dehydration Assessment</div>
+      <p>Clinical decision-tree chatbot that guides users through a step-by-step dehydration assessment and produces a color-coded three-tier diagnosis with a patient records dashboard.</p>
+      <ul class="feature-list">
+        <li>Three-tier diagnosis: None / Some / Severe</li>
+        <li>Color-coded patient records dashboard</li>
+        <li>Real-time input validation</li>
+        <li>Timestamped assessment history</li>
+        <li>Flask backend · React frontend</li>
+      </ul>
+      <span class="highlight-badge">Flask · React · Clinical Decision Tree</span>
+      <div class="tech-pills">
+        <span class="pill">Python</span>
+        <span class="pill">Flask</span>
+        <span class="pill">React</span>
+        <span class="pill">JavaScript</span>
+      </div>
+      <div class="card-links">
+        <a href="https://github.com/MSMITH71910/medical-diagnosis-Bot-Webapp" target="_blank" rel="noopener" class="card-gh-link">↳ View on GitHub</a>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<hr class="section-divider">
+
+<section id="business-bots" class="reveal">
+  <span class="eyebrow">04 — business chatbots</span>
+  <h2>Embedded Business Chatbots</h2>
+  <p class="section-sub">Fully deployed demo websites — each with a 24/7 AI chatbot handling reservations, leads, bookings, and customer queries.</p>
+  <div class="project-grid-2">
+
+    <div class="card project-card">
+      <span class="icon">🍝</span>
+      <h3>Sofia — Restaurant AI Chatbot</h3>
+      <div class="subtitle">Bella Roma Italian Kitchen</div>
+      <p>Floating AI chat widget "Sofia" deployed across all 6 pages. Handles reservations, menu questions, dietary restrictions, wine list, catering enquiries, and private dining — 30+ intelligent response paths.</p>
+      <ul class="feature-list">
+        <li>Auto-greeting with notification badge after 3 seconds</li>
+        <li>30+ response paths: reservations, menu, dietary, catering</li>
+        <li>Quick-reply buttons for guided conversations</li>
+        <li>Reservation automation + SMS reminder simulation</li>
+      </ul>
+      <span class="highlight-badge">30+ Response Paths · SMS Automation</span>
+      <div class="tech-pills">
+        <span class="pill">JavaScript</span>
+        <span class="pill">HTML/CSS</span>
+        <span class="pill">Chat Widget</span>
+        <span class="pill">Automation</span>
+      </div>
+      <div class="card-links">
+        <a href="https://github.com/MSMITH71910/Restaurant_Demo_site" target="_blank" rel="noopener" class="card-gh-link">↳ View on GitHub</a>
+        <a href="https://msmith71910.github.io/Restaurant_Demo_site/" target="_blank" rel="noopener" class="card-live-link"><span class="live-dot"></span> Live Demo</a>
+      </div>
+    </div>
+
+    <div class="card project-card">
+      <span class="icon">🏠</span>
+      <h3>Alex — Real Estate Lead Qualifier</h3>
+      <div class="subtitle">Marcus Chen Real Estate Group</div>
+      <p>AI lead qualifier chatbot "Alex" with a live scoring system (0–100 pts). Detects lead type (Buyer / Seller / Investor) and scores them from New Lead → Warm Lead → HOT LEAD 🔥.</p>
+      <ul class="feature-list">
+        <li>Real-time lead scoring displayed in chatbot header</li>
+        <li>Lead type detection: Buyer / Seller / Investor</li>
+        <li>20+ responses: price ranges, neighbourhoods, financing</li>
+        <li>7-day automated follow-up sequence on form submit</li>
+        <li>AI mortgage calculator + showing scheduler</li>
+      </ul>
+      <span class="highlight-badge">Live Lead Scoring 0–100 · 7-Day Follow-Up</span>
+      <div class="tech-pills">
+        <span class="pill">JavaScript</span>
+        <span class="pill">Lead Scoring</span>
+        <span class="pill">HTML/CSS</span>
+        <span class="pill">Automation</span>
+      </div>
+      <div class="card-links">
+        <a href="https://github.com/MSMITH71910/real_estate_demo_site" target="_blank" rel="noopener" class="card-gh-link">↳ View on GitHub</a>
+        <a href="https://msmith71910.github.io/real_estate_demo_site/" target="_blank" rel="noopener" class="card-live-link"><span class="live-dot"></span> Live Demo</a>
+      </div>
+    </div>
+
+    <div class="card project-card">
+      <span class="icon">💅</span>
+      <h3>Salon &amp; Spa Booking Chatbot</h3>
+      <div class="subtitle">Luxe Beauty Studio</div>
+      <p>AI booking chatbot embedded across a 7-page salon and spa demo site. Handles service enquiries, appointment scheduling, Instagram caption generation, and client retention automations.</p>
+      <ul class="feature-list">
+        <li>AI booking chatbot on every page</li>
+        <li>Service menu, pricing &amp; availability responses</li>
+        <li>Instagram caption generator integration</li>
+        <li>Client retention automation workflows</li>
+      </ul>
+      <span class="highlight-badge">AI Booking · Retention Automation</span>
+      <div class="tech-pills">
+        <span class="pill">JavaScript</span>
+        <span class="pill">HTML/CSS</span>
+        <span class="pill">Chat Widget</span>
+        <span class="pill">Automation</span>
+      </div>
+      <div class="card-links">
+        <a href="https://github.com/MSMITH71910/Salon_Spa_Demo_SIte" target="_blank" rel="noopener" class="card-gh-link">↳ View on GitHub</a>
+        <a href="https://msmith71910.github.io/Salon_Spa_Demo_SIte/" target="_blank" rel="noopener" class="card-live-link"><span class="live-dot"></span> Live Demo</a>
+      </div>
+    </div>
+
+    <div class="card project-card">
+      <span class="icon">🏗️</span>
+      <h3>Max — Contractor Estimate Chatbot</h3>
+      <div class="subtitle">Apex Build &amp; Remodel</div>
+      <p>AI estimate chatbot "Max" covering 15+ conversation paths across a 10-page contracting site. Provides budget ranges for kitchen, bathroom, roofing, new builds, and commercial projects.</p>
+      <ul class="feature-list">
+        <li>15+ conversation paths: kitchen, bath, roofing, commercial</li>
+        <li>Budget ranges provided for every service type</li>
+        <li>Routes urgent leads to owner within 1 hour (simulated)</li>
+        <li>Google review request automation</li>
+        <li>Filterable project portfolio gallery</li>
+      </ul>
+      <span class="highlight-badge">15+ Paths · Budget Estimation · Lead Routing</span>
+      <div class="tech-pills">
+        <span class="pill">JavaScript</span>
+        <span class="pill">HTML/CSS</span>
+        <span class="pill">Chat Widget</span>
+        <span class="pill">Lead Routing</span>
+      </div>
+      <div class="card-links">
+        <a href="https://github.com/MSMITH71910/general_contracting_demo_site" target="_blank" rel="noopener" class="card-gh-link">↳ View on GitHub</a>
+        <a href="https://msmith71910.github.io/general_contracting_demo_site/" target="_blank" rel="noopener" class="card-live-link"><span class="live-dot"></span> Live Demo</a>
+      </div>
+    </div>
+
+    <div class="card project-card">
+      <span class="icon">🦷</span>
+      <h3>Dental &amp; Medical Booking Chatbot</h3>
+      <div class="subtitle">Bright Smile Dental &amp; Medical Center</div>
+      <p>HIPAA-safe AI chatbot on a 5-page dental and medical demo site. Handles appointment booking, service questions, insurance queries, SMS reminders, and Google review requests.</p>
+      <ul class="feature-list">
+        <li>HIPAA-safe contact forms and chatbot responses</li>
+        <li>Appointment booking with SMS reminder simulation</li>
+        <li>Service and insurance query handling</li>
+        <li>Google review request automation</li>
+      </ul>
+      <span class="highlight-badge">HIPAA-Safe · SMS Reminders</span>
+      <div class="tech-pills">
+        <span class="pill">JavaScript</span>
+        <span class="pill">HTML/CSS</span>
+        <span class="pill">Chat Widget</span>
+        <span class="pill">Automation</span>
+      </div>
+      <div class="card-links">
+        <a href="https://github.com/MSMITH71910/Dental_Medical_Startersite_demo" target="_blank" rel="noopener" class="card-gh-link">↳ View on GitHub</a>
+        <a href="https://msmith71910.github.io/Dental_Medical_Startersite_demo/" target="_blank" rel="noopener" class="card-live-link"><span class="live-dot"></span> Live Demo</a>
+      </div>
+    </div>
+
+    <div class="card project-card">
+      <span class="icon">🔧</span>
+      <h3>24/7 Emergency Plumber Chatbot</h3>
+      <div class="subtitle">Smith Plumbing &amp; Heating</div>
+      <p>Always-on emergency chatbot across a 5-page plumbing demo site. Handles emergency booking, service queries, pricing, and lead capture — including a dedicated 24/7 emergency page.</p>
+      <ul class="feature-list">
+        <li>24/7 emergency booking with safety tips</li>
+        <li>Service queries: pricing, availability, estimates</li>
+        <li>Lead capture form with owner text alert (simulated)</li>
+        <li>Google review request automation</li>
+      </ul>
+      <span class="highlight-badge">24/7 Emergency · Lead Capture</span>
+      <div class="tech-pills">
+        <span class="pill">JavaScript</span>
+        <span class="pill">HTML/CSS</span>
+        <span class="pill">Chat Widget</span>
+        <span class="pill">Emergency Booking</span>
+      </div>
+      <div class="card-links">
+        <a href="https://github.com/MSMITH71910/Plumbers_Startersite_demo" target="_blank" rel="noopener" class="card-gh-link">↳ View on GitHub</a>
+        <a href="https://msmith71910.github.io/Plumbers_Startersite_demo/" target="_blank" rel="noopener" class="card-live-link"><span class="live-dot"></span> Live Demo</a>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<section id="skills" class="reveal">
+  <span class="eyebrow">05 — skills</span>
+  <h2>Chatbot &amp; AI Stack</h2>
+  <div class="skills-grid">
+    <div class="skills-col">
+      <h3>AI / LLM &amp; Frameworks</h3>
+      <div class="skills-pills">
+        <span class="skill-pill">OpenAI GPT-4</span>
+        <span class="skill-pill">Whisper</span>
+        <span class="skill-pill">Claude (Anthropic)</span>
+        <span class="skill-pill">GPT-2 Fine-Tuning</span>
+        <span class="skill-pill">HuggingFace Transformers</span>
+        <span class="skill-pill">CrewAI</span>
+        <span class="skill-pill">LangChain</span>
+        <span class="skill-pill">Gradio</span>
+      </div>
+    </div>
+    <div class="skills-col">
+      <h3>Backend, Frontend &amp; Deploy</h3>
+      <div class="skills-pills">
+        <span class="skill-pill">Python</span>
+        <span class="skill-pill">FastAPI</span>
+        <span class="skill-pill">Flask</span>
+        <span class="skill-pill">React</span>
+        <span class="skill-pill">JavaScript</span>
+        <span class="skill-pill">Docker</span>
+        <span class="skill-pill">GitHub Pages</span>
+        <span class="skill-pill">AWS / GCP</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="contact" class="reveal contact-section">
+  <span class="eyebrow">06 — contact</span>
+  <h2>Let's Work Together</h2>
+  <p class="section-sub">I'm actively seeking remote Python / AI developer roles. Ready to build bots that work.</p>
+  <div class="contact-buttons">
+    <a href="mailto:M.Smith71910@gmail.com" class="btn btn-secondary">M.Smith71910@gmail.com</a>
+    <a href="https://github.com/MSMITH71910" target="_blank" rel="noopener" class="btn btn-secondary">github.com/MSMITH71910</a>
+    <a href="https://www.linkedin.com/in/michael-smith-2b38b260" target="_blank" rel="noopener" class="btn btn-secondary">linkedin.com/in/michael-smith-2b38b260</a>
+  </div>
+</section>
+
+<footer>
+  © 2026 Michael R. Smith — Built with vanilla HTML/CSS/JS
+</footer>
+
+<script>
+(function () {
+  var hamburger = document.getElementById('hamburger');
+  var menu = document.getElementById('nav-menu');
+
+  hamburger.addEventListener('click', function () {
+    menu.classList.toggle('open');
+  });
+
+  var navLinks = document.querySelectorAll('.nav-link');
+
+  navLinks.forEach(function (link) {
+    link.addEventListener('click', function () {
+      menu.classList.remove('open');
+    });
+  });
+
+  var sections = [];
+  navLinks.forEach(function (link) {
+    var href = link.getAttribute('href');
+    if (href && href.startsWith('#')) {
+      var sec = document.querySelector(href);
+      if (sec) sections.push({ link: link, sec: sec });
+    }
+  });
+
+  function onScroll() {
+    var scrollPos = window.scrollY + 110;
+    var current = null;
+    sections.forEach(function (item) {
+      if (item.sec.offsetTop <= scrollPos) current = item;
+    });
+    navLinks.forEach(function (l) { l.classList.remove('active'); });
+    if (current) current.link.classList.add('active');
+  }
+
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+
+  var revealEls = document.querySelectorAll('.reveal');
+  var observer = new IntersectionObserver(function (entries) {
+    entries.forEach(function (entry) {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1 });
+
+  revealEls.forEach(function (el) { observer.observe(el); });
+})();
+</script>
+
+</body>
+</html>
